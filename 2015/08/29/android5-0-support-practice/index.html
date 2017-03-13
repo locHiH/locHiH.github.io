@@ -1,0 +1,1083 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,drawerLayout,coordinatorLayout,android support lib," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android 5.0 support design 练手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手">
+<meta property="og:url" content="http://yoursite.com/2015/08/29/android5-0-support-practice/index.html">
+<meta property="og:site_name" content="Ding">
+<meta property="og:description" content="Android 5.0 support design 练手">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829190229890-546215352.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829173057906-112651173.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829173612359-2013510181.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829191703390-1296857674.png">
+<meta property="og:updated_time" content="2017-03-13T02:00:14.858Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手">
+<meta name="twitter:description" content="Android 5.0 support design 练手">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829190229890-546215352.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/08/29/android5-0-support-practice/"/>
+
+
+
+
+
+  <title> DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手 | Ding </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=60581603";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Ding</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">Putting a ding in the universe.</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/29/android5-0-support-practice/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="HCol">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Ding">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Ding" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-29T19:11:00+08:00">
+                2015-08-29
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-03-13T10:00:14+08:00">
+                2017-03-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/08/29/android5-0-support-practice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/29/android5-0-support-practice/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2015/08/29/android5-0-support-practice/" class="leancloud_visitors" data-flag-title="DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  Android 5.0 support design 练手
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先po一张效果图</p>
+<p> <img src="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829190229890-546215352.jpg" alt=""></p>
+<p>PS：原谅题主的懒惰吧..</p>
+<p>看着是不是很酷炫，那是因为5.0的动画做得好，代码其实没有多少，搞清楚这个布局的层次关系很重要。</p>
+<p>废话不多说了，先来看布局文件</p>
+<p><img src="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829173057906-112651173.png" alt=""></p>
+<p>最外层是一个DrawerLayout，它里面可以嵌套(一个?)container和多个drawer</p>
+<p>在这个demo中DrawerLayout包含了一个CoordinatorLayout ， ListView ， NavigationView</p>
+<p>CoordinatorLayout  作为 container的根布局</p>
+<p>listView和navigationview作为DarwerLayout中的darwer</p>
+<p>在container中用CoordinatorLayout目的是为了我们在滑动recyclerview时，让顶部的appbarlayout中的组件产生响应</p>
+<p>appbarlayout中的CollapsingToolbarLayout是用来控制toolbar和banner图片的响应效果</p>
+<p>特别注意：为了使得Toolbar可以滑动，我们必须还得有个条件，就是CoordinatorLayout布局下包裹一个可以滑动的布局，比如 RecyclerView，NestedScrollView(经过测试，ListView，ScrollView不支持)具有滑动效果的组件。</p>
+<p>下面的就是drawerLayout的使用注意事项了：</p>
+<p><img src="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829173612359-2013510181.png" alt=""></p>
+<p>按情理来说，一个drawerLayout添加一个drawer就够了，可是脑洞一开，想着多加一个会怎样，尝试之后发现很好玩，以后可以各种乱入drawer了，哈哈哈。</p>
+<p>因为做毕设的时候用的DrawerLayout还不是这样方便的，那会使用这个布局，设置起来麻烦很多，而现在的实现这个布局，布局文件设置好之后，只用三句话就搞定了，简单的可怕。</p>
+<p>下面贴上源码，各位看官就自行分析吧：</p>
+<p>主布局文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.DrawerLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/drawer_layout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.CoordinatorLayout</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/main_content"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/app_bar_layout"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:theme</span>=<span class="string">"@style/ThemeOverlay.AppCompat.Dark.ActionBar"</span>&gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="name">android.support.design.widget.CollapsingToolbarLayout</span></span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/collapsing_toolbar_layout"</span></div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">                <span class="attr">app:contentScrim</span>=<span class="string">"@android:color/transparent"</span></div><div class="line">                <span class="attr">app:layout_scrollFlags</span>=<span class="string">"scroll|exitUntilCollapsed"</span>&gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">                    <span class="attr">android:id</span>=<span class="string">"@+id/banner"</span></div><div class="line">                    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">                    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">                    <span class="attr">android:contentDescription</span>=<span class="string">"banner"</span></div><div class="line">                    <span class="attr">android:scaleType</span>=<span class="string">"fitXY"</span></div><div class="line">                    <span class="attr">android:src</span>=<span class="string">"@mipmap/banner"</span></div><div class="line">                    <span class="attr">app:layout_collapseMode</span>=<span class="string">"parallax"</span></div><div class="line">                    <span class="attr">app:layout_collapseParallaxMultiplier</span>=<span class="string">"0.5"</span> /&gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span></div><div class="line">                    <span class="attr">android:id</span>=<span class="string">"@+id/tool_bar"</span></div><div class="line">                    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">                    <span class="attr">android:layout_height</span>=<span class="string">"?attr/actionBarSize"</span></div><div class="line">                    <span class="attr">android:background</span>=<span class="string">"@android:color/transparent"</span></div><div class="line">                    <span class="attr">app:layout_collapseMode</span>=<span class="string">"pin"</span> /&gt;</div><div class="line">            <span class="tag">&lt;/<span class="name">android.support.design.widget.CollapsingToolbarLayout</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">android.support.v7.widget.RecyclerView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/recycler_view"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">app:layout_behavior</span>=<span class="string">"@string/appbar_scrolling_view_behavior"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">android.support.design.widget.FloatingActionButton</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/fab"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_margin</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">            <span class="attr">android:src</span>=<span class="string">"@mipmap/ic_action_web_site"</span></div><div class="line">            <span class="attr">app:borderWidth</span>=<span class="string">"0dp"</span></div><div class="line">            <span class="attr">app:elevation</span>=<span class="string">"@dimen/fab_elevation"</span></div><div class="line">            <span class="attr">app:layout_anchor</span>=<span class="string">"@id/app_bar_layout"</span></div><div class="line">            <span class="attr">app:layout_anchorGravity</span>=<span class="string">"end|bottom"</span></div><div class="line">            <span class="attr">app:layout_collapseMode</span>=<span class="string">"parallax"</span></div><div class="line">            <span class="attr">app:layout_collapseParallaxMultiplier</span>=<span class="string">"0.7"</span></div><div class="line">            <span class="attr">app:pressedTranslationZ</span>=<span class="string">"@dimen/fab_translation_z_pressed"</span></div><div class="line">            <span class="attr">app:rippleColor</span>=<span class="string">"?attr/colorPrimary"</span> /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">android.support.design.widget.CoordinatorLayout</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ListView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/id_lv_left_menu"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"end"</span></div><div class="line">        <span class="attr">android:paddingTop</span>=<span class="string">"0dp"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"#ffffffff"</span></div><div class="line">        <span class="attr">android:clipToPadding</span>=<span class="string">"false"</span></div><div class="line">        <span class="attr">android:divider</span>=<span class="string">"@null"</span></div><div class="line">        <span class="attr">android:listSelector</span>=<span class="string">"?attr/selectableItemBackground"</span></div><div class="line">        /&gt;</div><div class="line"></div><div class="line">    <span class="comment">&lt;!--&lt;include--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:layout_width="match_parent"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:layout_height="match_parent"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:layout_gravity="start"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:paddingTop="0dp"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:background="#ffffffff"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:clipToPadding="false"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--android:id="@+id/custom_drawer"--&gt;</span></div><div class="line">        <span class="comment">&lt;!--layout="@layout/layout_listview_drawer" /&gt;--&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.NavigationView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/navigation_view"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_gravity</span>=<span class="string">"start"</span></div><div class="line">        <span class="attr">app:headerLayout</span>=<span class="string">"@layout/drawer_header"</span></div><div class="line">        <span class="attr">app:menu</span>=<span class="string">"@menu/menu_navigation_items"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.DrawerLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Activity文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.anhry.hcol.support.design.activity;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.AppBarLayout;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.CollapsingToolbarLayout;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.CoordinatorLayout;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.FloatingActionButton;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.NavigationView;</div><div class="line"><span class="keyword">import</span> android.support.design.widget.Snackbar;</div><div class="line"><span class="keyword">import</span> android.support.v4.view.GravityCompat;</div><div class="line"><span class="keyword">import</span> android.support.v4.widget.DrawerLayout;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.LinearLayoutManager;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.RecyclerView;</div><div class="line"><span class="keyword">import</span> android.support.v7.widget.Toolbar;</div><div class="line"><span class="keyword">import</span> android.view.Gravity;</div><div class="line"><span class="keyword">import</span> android.view.LayoutInflater;</div><div class="line"><span class="keyword">import</span> android.view.MenuItem;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.AdapterView;</div><div class="line"><span class="keyword">import</span> android.widget.ImageButton;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"><span class="keyword">import</span> android.widget.ListView;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.anhry.hcol.support.design.adapter.LeftMenuListAdapter;</div><div class="line"><span class="keyword">import</span> com.anhry.hcol.support.design.adapter.MenuItemAdapter;</div><div class="line"><span class="keyword">import</span> com.anhry.hcol.support.design.<span class="keyword">module</span>.LvMenuItem;</div><div class="line"><span class="keyword">import</span> com.yanbober.support_library_demo.R;</div><div class="line"><span class="keyword">import</span> com.yanbober.support_library_demo.RecyclerViewAdapter;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@author</span> HCol</div><div class="line"> * <span class="doctag">@email</span> 282386589@qq.com</div><div class="line"> * <span class="doctag">@create</span> 2015/8/25</div><div class="line"> * <span class="doctag">@modify</span> 2015年8月29日17:29:04</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DesignDemoActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * views</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> DrawerLayout mDrawerLayout;</div><div class="line">    <span class="keyword">private</span> CoordinatorLayout mCoordinatorLayout;</div><div class="line">    <span class="keyword">private</span> AppBarLayout mAppBarLayout;</div><div class="line">    <span class="keyword">private</span> CollapsingToolbarLayout mCollapsingToolbarLayout;</div><div class="line">    <span class="keyword">private</span> ImageView mImageView;</div><div class="line">    <span class="keyword">private</span> Toolbar mToolbar;</div><div class="line">    <span class="keyword">private</span> RecyclerView mRecyclerView;</div><div class="line">    <span class="keyword">private</span> NavigationView mNavigationView;</div><div class="line">    <span class="keyword">private</span> FloatingActionButton mFloatingActionButton;</div><div class="line">    <span class="keyword">private</span> ImageView mRightNavigationBtn;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> CoordinatorLayout mCustomDrawer;</div><div class="line">    <span class="keyword">private</span> RecyclerView leftMenuList;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ListView mLvLeftMenu;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * members</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> RecyclerViewAdapter mAdapter;</div><div class="line">    <span class="keyword">private</span> LinearLayoutManager mRecyclerLayoutManager;</div><div class="line">    <span class="keyword">private</span> LeftMenuListAdapter mLeftMenuListAdapter;</div><div class="line">    <span class="keyword">private</span> List&lt;LvMenuItem&gt; dataSource;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BTN_RIGHT_MENU_TAG = <span class="string">"tag"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">        initViews();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * init views</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initViews</span><span class="params">()</span> </span>&#123;</div><div class="line">        setContentView(R.layout.activity_my_design);</div><div class="line">        <span class="comment">/* 抽屉形式界面的的两个布局控件</span></div><div class="line">        *</div><div class="line">        * DrawerLayout 做根布局使用</div><div class="line">        * 因为要显示的内容界面和抽屉视图（NavigationView）是包含在此layout之下的</div><div class="line">        *</div><div class="line">        * NavigationView 抽屉布局中的抽屉视图，有源码分析他的实现其实就是一个ListView</div><div class="line">        * 而这里用的是原生的组件，所以在Menu目录下配置好要显示的条目，引用即可，非常方便.</div><div class="line">        *</div><div class="line">        * ref:http://blog.csdn.net/lmj623565791/article/details/46405409</div><div class="line">        *</div><div class="line">        * */</div><div class="line"><span class="comment">//        原生DrawerLayout</span></div><div class="line">        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);</div><div class="line"></div><div class="line"><span class="comment">//        利用ListView仿制的Drawer</span></div><div class="line">        mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);</div><div class="line">        setUpDrawer();</div><div class="line"></div><div class="line"><span class="comment">//        不用在意这一块</span></div><div class="line"><span class="comment">//        mCustomDrawer = (CoordinatorLayout) findViewById(R.id.custom_drawer);</span></div><div class="line"><span class="comment">//        leftMenuList = (RecyclerView) findViewById(R.id.rv_left_menu);</span></div><div class="line"><span class="comment">//        dataSource = new ArrayList&lt;&gt;(</span></div><div class="line"><span class="comment">//                Arrays.asList(</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Home"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Messages"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Friends"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Discussion"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Discussion"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Discussion"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Discussion"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Discussion"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(),</span></div><div class="line"><span class="comment">//                        new LvMenuItem("Sub Items"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Sub Item 1"),</span></div><div class="line"><span class="comment">//                        new LvMenuItem(R.mipmap.ic_action_web_site, "Sub Item 2")</span></div><div class="line"><span class="comment">//                ));</span></div><div class="line"><span class="comment">//        mLeftMenuListAdapter = new LeftMenuListAdapter(this, dataSource);</span></div><div class="line"><span class="comment">//        mRecyclerLayoutManager = new LinearLayoutManager(this);</span></div><div class="line"><span class="comment">//        leftMenuList.setAdapter(mLeftMenuListAdapter);</span></div><div class="line"><span class="comment">//        leftMenuList.setLayoutManager(mRecyclerLayoutManager);</span></div><div class="line"></div><div class="line">        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);</div><div class="line">        mNavigationView.setNavigationItemSelectedListener(<span class="keyword">new</span> NavigationView.OnNavigationItemSelectedListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onNavigationItemSelected</span><span class="params">(MenuItem menuItem)</span> </span>&#123;</div><div class="line">                mDrawerLayout.closeDrawers();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">/* 下面就是抽屉布局中[内容布局]的重点了</span></div><div class="line">         *</div><div class="line">         * CoordinatorLayout            协调者布局</div><div class="line">         * AppBarLayout                 导航栏布局</div><div class="line">         * CollapsingToolbarLayout      ToolBar的可坍塌布局</div><div class="line">         *</div><div class="line">         * 首先，这三个布局有什么用呢？</div><div class="line">         *</div><div class="line">         * CoordinatorLayout</div><div class="line">         * 官方文档介绍说是一个增强版的FrameLayout</div><div class="line">         * 有两种主要的用途：</div><div class="line">         * 1. 作为一个顶层布局文件来使用</div><div class="line">         * 2. 作为一个有[多个互动视图]的容器</div><div class="line">         * 就是当某一视图有特殊行为动作时，其他子视图会进行相应的动作反应。INTERACTION</div><div class="line">         *</div><div class="line">         * AppBarLayout</div><div class="line">         * 一个模块化的布局文件，可以用来装载一切属于AppBar的组件</div><div class="line">         *</div><div class="line">         * CollapsingToolbarLayout</div><div class="line">         *</div><div class="line">         * CollapsingToolbarLayout is a wrapper for Toolbar which implements a collapsing app bar.</div><div class="line">         * It is designed to be used as a direct child of a AppBarLayout.</div><div class="line">         *</div><div class="line">         * 官方说，它的诞生主要是用来为toolbar锦上添花用的</div><div class="line">         * 被设计来作为AppBarLayout的亲儿子来使用</div><div class="line">         *</div><div class="line">         * */</div><div class="line">        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);</div><div class="line">        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);</div><div class="line">        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);</div><div class="line">        mImageView = (ImageView) findViewById(R.id.banner);</div><div class="line">        mToolbar = (Toolbar) findViewById(R.id.tool_bar);</div><div class="line"></div><div class="line">        <span class="comment">// 创建右边导航按钮</span></div><div class="line">        ensureRightButtonView();</div><div class="line">        mToolbar.setNavigationIcon(R.mipmap.ic_drawer);</div><div class="line">        mToolbar.addView(mRightNavigationBtn);</div><div class="line">        mToolbar.setNavigationOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                mDrawerLayout.openDrawer(GravityCompat.START);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        mCollapsingToolbarLayout.setTitle(<span class="string">"CollapsingTitle"</span>);</div><div class="line">        <span class="comment">/* init RecyclerView */</span></div><div class="line">        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);</div><div class="line">        mAdapter = <span class="keyword">new</span> RecyclerViewAdapter(<span class="keyword">this</span>);</div><div class="line">        mRecyclerView.setAdapter(mAdapter);</div><div class="line">        mRecyclerLayoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);</div><div class="line">        mRecyclerView.setLayoutManager(mRecyclerLayoutManager);</div><div class="line"></div><div class="line">        mFloatingActionButton = (FloatingActionButton)findViewById(R.id.fab);</div><div class="line">        mFloatingActionButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                Snackbar.make(mRecyclerView , <span class="string">"papa i'm here"</span> , Snackbar.LENGTH_LONG).show();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setUpDrawer</span><span class="params">()</span> </span>&#123;</div><div class="line">        LayoutInflater inflater = LayoutInflater.from(<span class="keyword">this</span>);</div><div class="line">        mLvLeftMenu.addHeaderView(inflater.inflate(R.layout.drawer_header, mLvLeftMenu, <span class="keyword">false</span>));</div><div class="line">        mLvLeftMenu.setAdapter(<span class="keyword">new</span> MenuItemAdapter(<span class="keyword">this</span>));</div><div class="line">        mLvLeftMenu.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; parent, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> </span>&#123;</div><div class="line">                mDrawerLayout.closeDrawers();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureRightButtonView</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mRightNavigationBtn == <span class="keyword">null</span>) &#123;</div><div class="line">            mRightNavigationBtn = <span class="keyword">new</span> ImageButton(<span class="keyword">this</span>, <span class="keyword">null</span>,</div><div class="line">                    android.support.v7.appcompat.R.attr.toolbarNavigationButtonStyle);</div><div class="line">            <span class="keyword">final</span> Toolbar.LayoutParams lp = generateDefaultLayoutParams();</div><div class="line">            lp.gravity = GravityCompat.END | (Gravity.TOP &amp; Gravity.VERTICAL_GRAVITY_MASK);</div><div class="line">            mRightNavigationBtn.setImageResource(R.mipmap.ic_drawer);</div><div class="line">            mRightNavigationBtn.setLayoutParams(lp);</div><div class="line">            mRightNavigationBtn.setTag(BTN_RIGHT_MENU_TAG);</div><div class="line">            mRightNavigationBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                    mDrawerLayout.openDrawer(GravityCompat.END);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Toolbar.<span class="function">LayoutParams <span class="title">generateDefaultLayoutParams</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>drawer head：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:background</span>=<span class="string">"#000000"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_horizontal"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line">    <span class="attr">android:padding</span>=<span class="string">"13dp"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:src</span>=<span class="string">"@drawable/icon_people"</span> /&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">        <span class="attr">android:layout_marginTop</span>=<span class="string">"15dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"UserName"</span></div><div class="line">        <span class="attr">android:textColor</span>=<span class="string">"?attr/colorAccent"</span></div><div class="line">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>ListViewAdapter：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MenuItemAdapter</span> <span class="keyword">extends</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> mIconSize;</div><div class="line">    <span class="keyword">private</span> LayoutInflater mInflater;</div><div class="line">    <span class="keyword">private</span> Context mContext;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MenuItemAdapter</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        mInflater = LayoutInflater.from(context);</div><div class="line">        mContext = context;</div><div class="line"></div><div class="line">        mIconSize = context.getResources().getDimensionPixelSize(R.dimen.abc_dialog_padding_material);<span class="comment">//24dp</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> List&lt;LvMenuItem&gt; mItems = <span class="keyword">new</span> ArrayList&lt;LvMenuItem&gt;(</div><div class="line">            Arrays.asList(</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Home"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Messages"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Friends"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Discussion"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(<span class="string">"Sub Items"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Sub Item 1"</span>),</div><div class="line">                    <span class="keyword">new</span> LvMenuItem(R.mipmap.ic_action_web_site, <span class="string">"Sub Item 2"</span>)</div><div class="line">            ));</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mItems.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getItem</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mItems.get(position);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getItemId</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> position;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewTypeCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">3</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mItems.get(position).type;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</div><div class="line">        LvMenuItem item = mItems.get(position);</div><div class="line">        <span class="keyword">switch</span> (item.type) &#123;</div><div class="line">            <span class="keyword">case</span> LvMenuItem.TYPE_NORMAL:</div><div class="line">                <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;</div><div class="line">                    convertView = mInflater.inflate(R.layout.design_drawer_item, parent,</div><div class="line">                            <span class="keyword">false</span>);</div><div class="line">                &#125;</div><div class="line">                TextView itemView = (TextView) convertView;</div><div class="line">                itemView.setText(item.name);</div><div class="line">                Drawable icon = mContext.getResources().getDrawable(item.icon);</div><div class="line">                setIconColor(icon);</div><div class="line">                <span class="keyword">if</span> (icon != <span class="keyword">null</span>) &#123;</div><div class="line">                    icon.setBounds(<span class="number">0</span>, <span class="number">0</span>, mIconSize, mIconSize);</div><div class="line">                    TextViewCompat.setCompoundDrawablesRelative(itemView, icon, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> LvMenuItem.TYPE_NO_ICON:</div><div class="line">                <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;</div><div class="line">                    convertView = mInflater.inflate(R.layout.design_drawer_item_subheader,</div><div class="line">                            parent, <span class="keyword">false</span>);</div><div class="line">                &#125;</div><div class="line">                TextView subHeader = (TextView) convertView;</div><div class="line">                subHeader.setText(item.name);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> LvMenuItem.TYPE_SEPARATOR:</div><div class="line">                <span class="keyword">if</span> (convertView == <span class="keyword">null</span>) &#123;</div><div class="line">                    convertView = mInflater.inflate(R.layout.design_drawer_item_separator,</div><div class="line">                            parent, <span class="keyword">false</span>);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> convertView;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIconColor</span><span class="params">(Drawable icon)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> textColorSecondary = android.R.attr.textColorSecondary;</div><div class="line">        TypedValue value = <span class="keyword">new</span> TypedValue();</div><div class="line">        <span class="keyword">if</span> (!mContext.getTheme().resolveAttribute(textColorSecondary, value, <span class="keyword">true</span>)) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> baseColor = mContext.getResources().getColor(value.resourceId);</div><div class="line">        icon.setColorFilter(baseColor, PorterDuff.Mode.MULTIPLY);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Item：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LvMenuItem</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LvMenuItem</span><span class="params">(<span class="keyword">int</span> icon, String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.icon = icon;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (icon == NO_ICON &amp;&amp; TextUtils.isEmpty(name)) &#123;</div><div class="line">            type = TYPE_SEPARATOR;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (icon == NO_ICON) &#123;</div><div class="line">            type = TYPE_NO_ICON;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            type = TYPE_NORMAL;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (type != TYPE_SEPARATOR &amp;&amp; TextUtils.isEmpty(name)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"you need set a name for a non-SEPARATOR item"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LvMenuItem</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(NO_ICON, name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LvMenuItem</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NO_ICON = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_NORMAL = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_NO_ICON = <span class="number">1</span>;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_SEPARATOR = <span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> type;</div><div class="line">    <span class="keyword">public</span> String name;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> icon;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Item的资源文件：</p>
+<p>design_drawer_item_separator：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">FrameLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">View</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"1dp"</span></div><div class="line">        <span class="attr">android:background</span>=<span class="string">"?android:attr/listDivider"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>design_drawer_item_subheader:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">TextView</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"?attr/listPreferredItemHeightSmall"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_vertical|start"</span></div><div class="line">    <span class="attr">android:maxLines</span>=<span class="string">"1"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"?attr/listPreferredItemPaddingLeft"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"?attr/listPreferredItemPaddingRight"</span></div><div class="line">    <span class="attr">android:textAppearance</span>=<span class="string">"?attr/textAppearanceListItem"</span></div><div class="line">    <span class="attr">android:textColor</span>=<span class="string">"?android:textColorSecondary"</span>/&gt;</div></pre></td></tr></table></figure>
+<p>design_drawer_item:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"?attr/listPreferredItemHeightSmall"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"?attr/listPreferredItemPaddingLeft"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"?attr/listPreferredItemPaddingRight"</span></div><div class="line">    <span class="attr">android:drawablePadding</span>=<span class="string">"32dp"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center_vertical|start"</span></div><div class="line">    <span class="attr">android:maxLines</span>=<span class="string">"1"</span></div><div class="line">    <span class="attr">android:textAppearance</span>=<span class="string">"?attr/textAppearanceListItem"</span></div><div class="line">    <span class="attr">android:textColor</span>=<span class="string">"?android:attr/textColorPrimary"</span>/&gt;</div></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<p><a href="http://www.2cto.com/kf/201506/409067.html" target="_blank" rel="external">http://www.2cto.com/kf/201506/409067.html</a></p>
+<p><a href="http://www.open-open.com/lib/view/open1433385856119.html#_label8" target="_blank" rel="external">http://www.open-open.com/lib/view/open1433385856119.html#_label8</a></p>
+<p><a href="http://blog.csdn.net/lmj623565791/article/details/46405409" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/46405409</a></p>
+<p>PS：为什么放多个drawer，而drawerLayout打开drawer的时候不会混乱呢？</p>
+<p><img src="http://images2015.cnblogs.com/blog/528514/201508/528514-20150829191703390-1296857674.png" alt=""></p>
+<p>没事就看看源码，反正又不要钱..</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的认可是我最大的动力！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/reward_wx.png" alt="HCol WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/reward_alipay.jpg" alt="HCol Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/drawerLayout/" rel="tag"># drawerLayout</a>
+          
+            <a href="/tags/coordinatorLayout/" rel="tag"># coordinatorLayout</a>
+          
+            <a href="/tags/android-support-lib/" rel="tag"># android support lib</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/28/when-is-cheryls-birthday/" rel="next" title="When Is Cheryl's Birthday">
+                <i class="fa fa-chevron-left"></i> When Is Cheryl's Birthday
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/21/react-native-hub/" rel="prev" title="react-native 入门资源">
+                react-native 入门资源 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/29/android5-0-support-practice/"
+           data-title="DrawerLayout、CoordinatorLayout、CollapsingToolbarLayout的使用--AndroidSupportDesign练手" data-url="http://yoursite.com/2015/08/29/android5-0-support-practice/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="HCol" />
+          <p class="site-author-name" itemprop="name">HCol</p>
+          <p class="site-description motion-element" itemprop="description">HCol's Blog</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/locHiH" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/hcol2013" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HCol</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lochih"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("FM8al46LhJedJQJOtA6RxMXh-gzGzoHsz", "Gpdj8V14rxSEMuIvz6LKC9VA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
