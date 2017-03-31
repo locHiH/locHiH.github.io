@@ -84,31 +84,19 @@
 
 
 
-<meta name="description" content="参考资料
-直接修改别人jar包里面的class文件 工具:jclasslib
-
-背景交代因为 Android Studio 中的 Android Icon Creator 插件生成的图片路径还是在 drawable 之下，和同事纠结了一下还是决定将所有图片放在 mipmap 下面，所以就产生了动插件 jar 包的想法。
-ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
+<meta name="description" content="DIY 一小步">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次 .class 文件的修改">
 <meta property="og:url" content="http://yoursite.com/2017/03/31/modify-java-class-file/index.html">
 <meta property="og:site_name" content="Ding">
-<meta property="og:description" content="参考资料
-直接修改别人jar包里面的class文件 工具:jclasslib
-
-背景交代因为 Android Studio 中的 Android Icon Creator 插件生成的图片路径还是在 drawable 之下，和同事纠结了一下还是决定将所有图片放在 mipmap 下面，所以就产生了动插件 jar 包的想法。
-ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
+<meta property="og:description" content="DIY 一小步">
 <meta property="og:image" content="http://yoursite.com/2017/03/31/modify-java-class-file/jclasslib.png">
 <meta property="og:image" content="http://yoursite.com/2017/03/31/modify-java-class-file/modify_success.png">
 <meta property="og:image" content="http://yoursite.com/2017/03/31/modify-java-class-file/run.png">
-<meta property="og:updated_time" content="2017-03-31T14:30:22.750Z">
+<meta property="og:updated_time" content="2017-03-31T14:36:15.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次 .class 文件的修改">
-<meta name="twitter:description" content="参考资料
-直接修改别人jar包里面的class文件 工具:jclasslib
-
-背景交代因为 Android Studio 中的 Android Icon Creator 插件生成的图片路径还是在 drawable 之下，和同事纠结了一下还是决定将所有图片放在 mipmap 下面，所以就产生了动插件 jar 包的想法。
-ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
+<meta name="twitter:description" content="DIY 一小步">
 <meta name="twitter:image" content="http://yoursite.com/2017/03/31/modify-java-class-file/jclasslib.png">
 
 
@@ -363,12 +351,34 @@ ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
               
                 <span class="post-meta-item-text">更新于</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2017-03-31T22:30:22+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2017-03-31T22:36:15+08:00">
                 2017-03-31
               </time>
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -404,6 +414,10 @@ ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
           
 
           
+              <div class="post-description">
+                  DIY 一小步
+              </div>
+          
 
         </div>
       </header>
@@ -427,7 +441,6 @@ ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
 <p>么，然后就找到了 javap </p>
 <p><strong>javap 可以查看 .class 文件的结构信息</strong></p>
 <p>就像这样</p>
-<p><img src="/2017/03/31/modify-java-class-file/jclasslib.png" alt="jclasslib"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">C:\Users\HCol\Desktop&gt;javap HelloWorld.class</div><div class="line">Compiled from &quot;HelloWorld.java&quot;</div><div class="line">public class HelloWorld &#123;</div><div class="line">  public HelloWorld();</div><div class="line">  public static final void main(java.lang.String[]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">C:\Users\HCol\Desktop&gt;javap -v HelloWorld.class</div><div class="line">Classfile /C:/Users/HCol/Desktop/HelloWorld.class</div><div class="line">  Last modified 2017-3-31; size 427 bytes</div><div class="line">  MD5 checksum a185526841e54eac7ed70bfe00bc6840</div><div class="line">  Compiled from &quot;HelloWorld.java&quot;</div><div class="line">public class HelloWorld</div><div class="line">  minor version: 0</div><div class="line">  major version: 52</div><div class="line">  flags: ACC_PUBLIC, ACC_SUPER</div><div class="line">Constant pool:</div><div class="line">   #1 = Methodref          #6.#15         // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</div><div class="line">   #2 = Fieldref           #16.#17        // java/lang/System.out:Ljava/io/PrintStream;</div><div class="line">   #3 = String             #18            // Hello, world!</div><div class="line">   #4 = Methodref          #19.#20        // java/io/PrintStream.println:(Ljava/lang/String;)V</div><div class="line">   #5 = Class              #21            // HelloWorld</div><div class="line">   #6 = Class              #22            // java/lang/Object</div><div class="line">   #7 = Utf8               &lt;init&gt;</div><div class="line">   #8 = Utf8               ()V</div><div class="line">   #9 = Utf8               Code</div><div class="line">  #10 = Utf8               LineNumberTable</div><div class="line">  #11 = Utf8               main</div><div class="line">  #12 = Utf8               ([Ljava/lang/String;)V</div><div class="line">  #13 = Utf8               SourceFile</div><div class="line">  #14 = Utf8               HelloWorld.java</div><div class="line">  #15 = NameAndType        #7:#8          // &quot;&lt;init&gt;&quot;:()V</div><div class="line">  #16 = Class              #23            // java/lang/System</div><div class="line">  #17 = NameAndType        #24:#25        // out:Ljava/io/PrintStream;</div><div class="line">  #18 = Utf8               Hello, world!</div><div class="line">  #19 = Class              #26            // java/io/PrintStream</div><div class="line">  #20 = NameAndType        #27:#28        // println:(Ljava/lang/String;)V</div><div class="line">  #21 = Utf8               HelloWorld</div><div class="line">  #22 = Utf8               java/lang/Object</div><div class="line">  #23 = Utf8               java/lang/System</div><div class="line">  #24 = Utf8               out</div><div class="line">  #25 = Utf8               Ljava/io/PrintStream;</div><div class="line">  #26 = Utf8               java/io/PrintStream</div><div class="line">  #27 = Utf8               println</div><div class="line">  #28 = Utf8               (Ljava/lang/String;)V</div><div class="line">&#123;</div><div class="line">  public HelloWorld();</div><div class="line">    descriptor: ()V</div><div class="line">    flags: ACC_PUBLIC</div><div class="line">    Code:</div><div class="line">      stack=1, locals=1, args_size=1</div><div class="line">         0: aload_0</div><div class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</div><div class="line">         4: return</div><div class="line">      LineNumberTable:</div><div class="line">        line 3: 0</div><div class="line"></div><div class="line">  public static final void main(java.lang.String[]);</div><div class="line">    descriptor: ([Ljava/lang/String;)V</div><div class="line">    flags: ACC_PUBLIC, ACC_STATIC, ACC_FINAL</div><div class="line">    Code:</div><div class="line">      stack=2, locals=1, args_size=1</div><div class="line">         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</div><div class="line">         3: ldc           #3                  // String Hello, world!</div><div class="line">         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</div><div class="line">         8: return</div><div class="line">      LineNumberTable:</div><div class="line">        line 6: 0</div><div class="line">        line 7: 8</div><div class="line">&#125;</div><div class="line">SourceFile: &quot;HelloWorld.java&quot;</div><div class="line"></div><div class="line">C:\Users\HCol\Desktop&gt;</div></pre></td></tr></table></figure>
 <p>好了，然而这波哔并不能装，就看看就好了，卒</p>
 <h1 id="ROUND-3-jclasslib"><a href="#ROUND-3-jclasslib" class="headerlink" title="ROUND 3 - jclasslib"></a>ROUND 3 - <a href="https://github.com/ingokegel/jclasslib" target="_blank" rel="external">jclasslib</a></h1><p>好，既然到这儿了，那么这次我们就一定能改成功了，事不过三嘛(<del>笑死</del></p>
@@ -437,8 +450,7 @@ ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
 <p> 因为 “Hello,world!” 是一个 String 而且是在 main 方法里面，所以我们只需要关注几个地方就好了:</p>
 <ul>
 <li>常量池(Constant Pool)</li>
-<li>方法名(Method#main)</li>
-<li>….</li>
+<li>方法名(Method#main)<br><img src="/2017/03/31/modify-java-class-file/jclasslib.png" alt="jclasslib"></li>
 </ul>
 </li>
 <li><p><strong>去常量池找到目标资源</strong></p>
@@ -598,7 +610,7 @@ ROUND 1 - BytecodeViewer 2.9.8很方便很强大的一个">
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
